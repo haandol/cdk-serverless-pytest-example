@@ -1,0 +1,80 @@
+import * as cdk from '@aws-cdk/core'
+import * as cognito from '@aws-cdk/aws-cognito'
+import { IdentityProvider } from '../constants/config'
+
+export class CognitoUserPool extends cdk.Construct {
+  public readonly userPool: cognito.IUserPool
+  public readonly userPoolClient: cognito.IUserPoolClient
+
+  constructor(scope: cdk.Construct, id: string) {
+    super(scope, id)
+
+    this.userPool = this.createUserPool()
+    this.userPoolClient = this.createUserPoolClient(this.userPool)
+  }
+
+  private createUserPool() {
+    const ns = this.node.tryGetContext('ns')
+    const userPool = new cognito.UserPool(this, 'UserPool', {
+      userPoolName: `${ns}UserPool`,
+      selfSignUpEnabled: true,
+      signInAliases: { email: true },
+      autoVerify: { email: true },
+      standardAttributes: {
+        email: { required: true },
+      },
+      customAttributes: {
+        provider: new cognito.StringAttribute({ mutable: true }),
+      },
+      passwordPolicy: {
+        requireDigits: true,
+        requireSymbols: false,
+        requireLowercase: true,
+        requireUppercase: false,
+      },
+      accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    })
+    new cognito.CfnUserPoolGroup(this, `AdminUserPoolGroup`, {
+      userPoolId: userPool.userPoolId,
+      groupName: 'Admin',
+      description: 'Group for admin users',
+    })
+    new cognito.UserPoolDomain(this, `UserPoolDomain`, {
+      userPool,
+      cognitoDomain: {
+        domainPrefix: `${ns.toLowerCase()}${cdk.Stack.of(this).account}`,
+      },
+    })
+    return userPool
+  }
+
+  private createUserPoolClient(userPool: cognito.IUserPool): cognito.IUserPoolClient {
+    const ns = this.node.tryGetContext('ns')
+    const userPoolClient = new cognito.UserPoolClient(this, 'UserPoolClient', {
+      userPoolClientName: `${ns}UserPoolClient`,
+      userPool,
+      authFlows: {
+        adminUserPassword: true,
+        userSrp: true,
+      },
+      oAuth: {
+        flows: {
+          implicitCodeGrant: true,
+        },
+        callbackUrls: [IdentityProvider.RedirectUri],
+        scopes: [
+          cognito.OAuthScope.EMAIL,
+          cognito.OAuthScope.PROFILE,
+          cognito.OAuthScope.OPENID,
+        ],
+      },
+      preventUserExistenceErrors: true,
+      supportedIdentityProviders: [
+        cognito.UserPoolClientIdentityProvider.COGNITO,
+      ],
+    })
+    return userPoolClient
+  }
+
+}
