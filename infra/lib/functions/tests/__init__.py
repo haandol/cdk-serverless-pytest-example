@@ -8,11 +8,12 @@ PROJECT_PATH = os.getcwd()
 EVENTS_PATH = os.path.join(PROJECT_PATH, 'lib', 'functions', 'tests', 'events')
 FIXTURES_PATH = os.path.join(PROJECT_PATH, 'lib', 'functions', 'tests', 'fixtures')
 
-TABLE_NAME = 'Test'
+TABLE_NAME = 'test'
 
 
 class BaseTestCase(TestCase):
     dynamodb = None
+    table = None
     mock_db = mock_dynamodb()
 
     def beforeSetup(self):
@@ -33,22 +34,15 @@ class BaseTestCase(TestCase):
                     'AttributeName': 'PK',
                     'KeyType': 'HASH',
                 },
-                {
-                    'AttributeName': 'SK',
-                    'KeyType': 'RANGE',
-                },
             ],
             AttributeDefinitions=[
                 {
                     'AttributeName': 'PK',
                     'AttributeType': 'S',
                 },
-                {
-                    'AttributeName': 'SK',
-                    'AttributeType': 'S',
-                },
             ],
         )
+        self.table = self.dynamodb.Table(TABLE_NAME)
         self.afterSetup()
 
     def beforeTearDown(self):
@@ -73,6 +67,5 @@ class BaseTestCase(TestCase):
             s = fp.read()
             fixture = json.loads(s)
 
-        table = self.dynamodb.Table(TABLE_NAME)
         for item in fixture:
-            table.put_item(Item=item)
+            self.table.put_item(Item=item)
