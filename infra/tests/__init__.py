@@ -5,8 +5,8 @@ from unittest import TestCase
 from moto import mock_dynamodb2 as mock_dynamodb
 
 PROJECT_PATH = os.getcwd()
-EVENTS_PATH = os.path.join(PROJECT_PATH, 'lib', 'functions', 'tests', 'events')
-FIXTURES_PATH = os.path.join(PROJECT_PATH, 'lib', 'functions', 'tests', 'fixtures')
+EVENTS_PATH = os.path.join(PROJECT_PATH, 'tests', 'events')
+FIXTURES_PATH = os.path.join(PROJECT_PATH, 'tests', 'fixtures')
 
 TABLE_NAME = 'test'
 
@@ -16,14 +16,12 @@ class BaseTestCase(TestCase):
     table = None
     mock_db = mock_dynamodb()
 
-    def beforeSetup(self):
-        pass
-
-    def afterSetup(self):
+    def beforeEach(self):
         pass
 
     def setUp(self):
-        self.beforeSetup()
+        super().setUp()
+
         self.mock_db.start()
         if not self.dynamodb:
             self.dynamodb = boto3.resource('dynamodb')
@@ -43,18 +41,15 @@ class BaseTestCase(TestCase):
             ],
         )
         self.table = self.dynamodb.Table(TABLE_NAME)
-        self.afterSetup()
+        self.beforeEach()
 
-    def beforeTearDown(self):
-        pass
-
-    def afterTearDown(self):
+    def afterEach(self):
         pass
 
     def tearDown(self):
-        self.beforeTearDown()
+        super().tearDown()
         self.mock_db.stop()
-        self.afterTearDown()
+        self.afterEach()
 
     def load_event(self, filename):
         with open(os.path.join(EVENTS_PATH, filename), 'r') as fp:
