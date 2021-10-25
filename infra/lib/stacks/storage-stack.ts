@@ -19,10 +19,6 @@ export class StorageStack extends cdk.Stack {
         name: 'PK',
         type: dynamodb.AttributeType.STRING,
       },
-      sortKey: {
-        name: 'SK',
-        type: dynamodb.AttributeType.STRING,
-      },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       encryption: dynamodb.TableEncryption.AWS_MANAGED, 
       // TODO: set retain for production
