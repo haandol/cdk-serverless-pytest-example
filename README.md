@@ -35,6 +35,20 @@ deploy the CDK app to your account
 $ cdk deploy "*" --require-approval never
 ```
 
+# Test
+
+install dependencies
+
+```bash
+$ pip install pytest moto -U
+```
+
+run tests
+
+```bash
+$ npm run pytest
+```
+
 # Cleanup
 
 ```bash
