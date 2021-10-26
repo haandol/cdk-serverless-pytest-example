@@ -9,19 +9,16 @@ else:
     from .ports import FetchAdapter
     from .adapters import DdbFetchAdapter
 
-TableName: str = None
 fetchAdapter: FetchAdapter = None
 
 
 def handler(event: Dict[str, Any], context: Any):
     print(json.dumps(event))
-    global TableName
-    if TableName is None:
-        TableName = os.environ['TABLE_NAME']
 
     global fetchAdapter
     if not fetchAdapter:
         dynamodb = boto3.resource('dynamodb')
+        TableName = os.environ['TABLE_NAME']
         table = dynamodb.Table(TableName)
         fetchAdapter = DdbFetchAdapter(table=table)
 
