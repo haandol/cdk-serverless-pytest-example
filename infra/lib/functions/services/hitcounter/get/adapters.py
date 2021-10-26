@@ -1,4 +1,7 @@
-from ports import FetchTable, FetchAdapter
+if __package__ is None:
+    from ports import FetchTable, FetchAdapter
+else:
+    from .ports import FetchTable, FetchAdapter
 
 
 class DdbFetchAdapter(FetchAdapter):

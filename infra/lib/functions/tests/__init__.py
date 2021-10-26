@@ -5,8 +5,8 @@ from unittest import TestCase
 from moto import mock_dynamodb2 as mock_dynamodb
 
 PROJECT_PATH = os.getcwd()
-EVENTS_PATH = os.path.join(PROJECT_PATH, 'tests', 'events')
-FIXTURES_PATH = os.path.join(PROJECT_PATH, 'tests', 'fixtures')
+EVENTS_PATH = os.path.join(PROJECT_PATH, 'lib', 'functions', 'tests', 'events')
+FIXTURES_PATH = os.path.join(PROJECT_PATH, 'lib', 'functions', 'tests', 'fixtures')
 
 TABLE_NAME = 'test'
 

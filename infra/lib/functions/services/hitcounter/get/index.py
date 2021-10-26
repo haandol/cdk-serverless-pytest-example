@@ -2,8 +2,12 @@ import os
 import json
 import boto3
 from typing import Dict, Any
-from ports import FetchAdapter
-from adapters import DdbFetchAdapter
+if __package__ is None:
+    from ports import FetchAdapter
+    from adapters import DdbFetchAdapter
+else:
+    from .ports import FetchAdapter
+    from .adapters import DdbFetchAdapter
 
 TableName: str = None
 fetchAdapter: FetchAdapter = None

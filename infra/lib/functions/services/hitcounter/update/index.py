@@ -2,21 +2,15 @@ import os
 import json
 import boto3
 from typing import Dict, Any
+if __package__ is None:
+    from ports import UpdateAdapter
+    from adapters import DdbUpdateAdapter
+else:
+    from .ports import UpdateAdapter
+    from .adapters import DdbUpdateAdapter
 
-TableName = None
-Table = None
-
-
-def update(table, path: str):
-    resp = table.update_item(
-        Key={ 'PK': path },
-        UpdateExpression='ADD hitCount :v',
-        ExpressionAttributeValues={
-            ':v': 1
-        },
-        ReturnValues='UPDATED_NEW',
-    )
-    return resp['Attributes']['hitCount']
+TableName: str = None
+updateAdapter: UpdateAdapter = None
 
 
 def handler(event: Dict[str, Any], context: Any):
@@ -25,14 +19,15 @@ def handler(event: Dict[str, Any], context: Any):
     if TableName is None:
         TableName = os.environ['TABLE_NAME']
 
-    global Table
-    if Table is None:
+    global updateAdapter
+    if not updateAdapter:
         dynamodb = boto3.resource('dynamodb')
-        Table = dynamodb.Table(TableName)
-
+        table = dynamodb.Table(TableName)
+        updateAdapter = DdbUpdateAdapter(table=table)
+ 
     path = event['pathParameters']['proxy']
-    count = update(Table, path)
+    count = updateAdapter.update(path)
     return {
         'path': path,
-        'count': count
+        'count': count,
     }
