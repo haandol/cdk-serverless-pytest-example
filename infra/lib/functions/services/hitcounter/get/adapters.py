@@ -1,19 +1,8 @@
-from abc import ABC, abstractmethod
-from typing import Protocol, Callable
-
-
-class Table(Protocol):
-    get_item: Callable
-
-
-class FetchAdapter(ABC):
-    @abstractmethod
-    def fetch(self, path: str):
-        """return hitCount for the given path"""
+from ports import FetchTable, FetchAdapter
 
 
 class DdbFetchAdapter(FetchAdapter):
-    def __init__(self, table: Table):
+    def __init__(self, table: FetchTable):
         self.table = table
 
     def fetch(self, path: str):

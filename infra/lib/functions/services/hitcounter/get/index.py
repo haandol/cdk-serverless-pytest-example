@@ -2,7 +2,8 @@ import os
 import json
 import boto3
 from typing import Dict, Any
-from adapters import FetchAdapter, DdbFetchAdapter
+from ports import FetchAdapter
+from adapters import DdbFetchAdapter
 
 TableName: str = None
 fetchAdapter: FetchAdapter = None
