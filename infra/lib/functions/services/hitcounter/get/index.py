@@ -1,29 +1,22 @@
-import os
 import json
-import boto3
 from typing import Dict, Any
 if not __package__:
-    from ports import FetchAdapter
-    from adapters import DdbFetchAdapter
+    from service import get_count
 else:
-    from .ports import FetchAdapter
-    from .adapters import DdbFetchAdapter
-
-fetchAdapter: FetchAdapter = None
+    from .service import get_count
 
 
 def handler(event: Dict[str, Any], context: Any):
     print(json.dumps(event))
 
-    global fetchAdapter
-    if not fetchAdapter:
-        dynamodb = boto3.resource('dynamodb')
-        TableName = os.environ['TABLE_NAME']
-        table = dynamodb.Table(TableName)
-        fetchAdapter = DdbFetchAdapter(table=table)
-
     path = event['pathParameters']['proxy']
-    count = fetchAdapter.fetch(path)
+    if not path:
+        return {
+            'statusCode': 400,
+            'message': 'no path given',
+        }
+
+    count = get_count(path)
     return {
         'path': path,
         'count': count,

@@ -11,3 +11,9 @@ class TestE2EUpdate(BaseTestCase):
             'path': path,
             'count': 1
         }
+
+    def test_with_empty_path(self):
+        event = self.load_event('hitcounter-get.json')
+        event['pathParameters']['proxy'] = ''
+        assert '' == event['pathParameters']['proxy']
+        assert index.handler(event, None)['statusCode'] == 400
