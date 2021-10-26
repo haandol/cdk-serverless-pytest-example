@@ -1,4 +1,4 @@
-if __package__ is None:
+if not __package__:
     from ports import FetchTable, FetchAdapter
 else:
     from .ports import FetchTable, FetchAdapter

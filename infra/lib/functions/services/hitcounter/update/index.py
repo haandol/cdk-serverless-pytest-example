@@ -2,7 +2,7 @@ import os
 import json
 import boto3
 from typing import Dict, Any
-if __package__ is None:
+if not __package__:
     from ports import UpdateAdapter
     from adapters import DdbUpdateAdapter
 else:
