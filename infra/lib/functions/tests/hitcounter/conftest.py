@@ -2,10 +2,10 @@ import os
 import sys
 import pytest
 from unittest import mock
-from . import TABLE_NAME
+from .. import TABLE_NAME
 
 PROJECT_PATH = os.getcwd()
-SOURCE_PATH = os.path.join(PROJECT_PATH, 'lib', 'functions')
+SOURCE_PATH = os.path.join(PROJECT_PATH, 'lib', 'functions', 'services')
 sys.path.append(SOURCE_PATH)
 
 

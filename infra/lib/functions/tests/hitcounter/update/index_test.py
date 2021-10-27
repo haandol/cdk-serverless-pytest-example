@@ -1,6 +1,6 @@
 import json
 from ... import BaseTestCase
-from services.hitcounter.update import index
+from hitcounter.update import index
 
 
 class TestE2EUpdate(BaseTestCase):
