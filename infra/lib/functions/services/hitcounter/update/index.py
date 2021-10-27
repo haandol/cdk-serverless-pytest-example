@@ -9,7 +9,9 @@ def handler(event: Dict[str, Any], context: Any):
 
     path = event['pathParameters']['proxy']
     if not path:
-        return response.error(400, body='no path given')
+        return response.error(
+            400, body='no path given', error_type='BadRequest'
+        )
 
     count = update_count(path)
     return response.success(body=json.dumps({
