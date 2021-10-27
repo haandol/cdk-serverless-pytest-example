@@ -1,9 +1,6 @@
 import os
 import boto3
-if not __package__:
-    from adapters import DdbUpdateAdapter
-else:
-    from .adapters import DdbUpdateAdapter
+from .adapters import DdbUpdateAdapter
 
 table = None
 

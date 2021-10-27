@@ -1,9 +1,6 @@
 import os
 import boto3
-if not __package__:
-    from adapters import DdbFetchAdapter
-else:
-    from .adapters import DdbFetchAdapter
+from .adapters import DdbFetchAdapter
 
 table = None
 

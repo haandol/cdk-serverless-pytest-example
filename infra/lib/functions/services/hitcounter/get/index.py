@@ -1,9 +1,6 @@
 import json
 from typing import Dict, Any
-if not __package__:
-    from service import get_count
-else:
-    from .service import get_count
+from .service import get_count
 
 
 def handler(event: Dict[str, Any], context: Any):

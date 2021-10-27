@@ -2,7 +2,6 @@ import * as path from 'path'
 import * as cdk from '@aws-cdk/core'
 import * as iam from '@aws-cdk/aws-iam'
 import * as lambda from '@aws-cdk/aws-lambda'
-import * as lambdaPython from '@aws-cdk/aws-lambda-python'
 import { Table } from '../../constants/config'
 
 export class HitCounterService extends cdk.Construct {
@@ -14,9 +13,10 @@ export class HitCounterService extends cdk.Construct {
 
     const ns = this.node.tryGetContext('ns')
 
-    this.updateCount = new lambdaPython.PythonFunction(this, `UpdateCount`, {
+    this.updateCount = new lambda.Function(this, `UpdateCount`, {
       functionName: `${ns}UpdateCount`,
-      entry: path.resolve(__dirname, '..', '..', 'functions', 'services', 'hitcounter', 'update'),
+      code: lambda.Code.fromAsset(path.resolve(__dirname, '..', '..', 'functions', 'services', 'hitcounter')),
+      handler: 'update.index.handler',
       runtime: lambda.Runtime.PYTHON_3_8,
       environment: {
         TABLE_NAME: Table.Name,
@@ -27,9 +27,10 @@ export class HitCounterService extends cdk.Construct {
       resources: Table.getResources(this),
     }))
 
-    this.getCount = new lambdaPython.PythonFunction(this, `GetCount`, {
+    this.getCount = new lambda.Function(this, `GetCount`, {
       functionName: `${ns}GetCount`,
-      entry: path.resolve(__dirname, '..', '..', 'functions', 'services', 'hitcounter', 'get'),
+      code: lambda.Code.fromAsset(path.resolve(__dirname, '..', '..', 'functions', 'services', 'hitcounter')),
+      handler: 'get.index.handler',
       runtime: lambda.Runtime.PYTHON_3_8,
       environment: {
         TABLE_NAME: Table.Name,
