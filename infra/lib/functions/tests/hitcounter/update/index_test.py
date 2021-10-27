@@ -1,19 +1,25 @@
+import json
 from ... import BaseTestCase
-import services.hitcounter.update.index as index
+from services.hitcounter.update import index
 
 
 class TestE2EUpdate(BaseTestCase):
     def test_handler(self):
         event = self.load_event('hitcounter-update.json')
+
         path = event['pathParameters']['proxy']
-        assert 'test' == path
-        assert index.handler(event, None) == {
-            'path': path,
-            'count': 1
-        }
+        self.assertEqual('test', path)
+
+        resp = index.handler(event, None)
+        self.assertEqual(resp['statusCode'], 200)
+
+        body = json.loads(resp['body'])
+        self.assertEqual(body['path'], path)
+        self.assertEqual(body['count'], 1)
 
     def test_with_empty_path(self):
         event = self.load_event('hitcounter-get.json')
         event['pathParameters']['proxy'] = ''
-        assert '' == event['pathParameters']['proxy']
-        assert index.handler(event, None)['statusCode'] == 400
+
+        resp = index.handler(event, None)
+        self.assertEqual(resp['statusCode'], 400)

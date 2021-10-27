@@ -5,7 +5,7 @@ from .adapters import DdbFetchAdapter
 table = None
 
 
-def get_count(path: str):
+def get_count(path: str) -> int:
     global table
     if not table:
         dynamodb = boto3.resource('dynamodb')

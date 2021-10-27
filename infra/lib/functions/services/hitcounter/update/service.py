@@ -5,7 +5,7 @@ from .adapters import DdbUpdateAdapter
 table = None
 
 
-def update_count(path: str):
+def update_count(path: str) -> int:
     global table
     if not table:
         dynamodb = boto3.resource('dynamodb')

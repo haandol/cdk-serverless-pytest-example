@@ -8,7 +8,7 @@ class UpdateTable(Protocol):
 
 class UpdateAdapter(ABC):
     @abstractmethod
-    def update(self, path: str):
+    def update(self, path: str) -> int:
         """return hitCount for the given path"""
 
 
@@ -16,7 +16,7 @@ class DdbUpdateAdapter(UpdateAdapter):
     def __init__(self, table: UpdateTable):
         self.table = table
 
-    def update(self, path: str):
+    def update(self, path: str) -> int:
         resp = self.table.update_item(
             Key={ 'PK': path },
             UpdateExpression='ADD hitCount :v',
@@ -25,4 +25,4 @@ class DdbUpdateAdapter(UpdateAdapter):
             },
             ReturnValues='UPDATED_NEW',
         )
-        return resp['Attributes']['hitCount']
+        return int(resp['Attributes']['hitCount'])

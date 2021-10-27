@@ -8,7 +8,7 @@ class FetchTable(Protocol):
 
 class FetchAdapter(ABC):
     @abstractmethod
-    def fetch(self, path: str):
+    def fetch(self, path: str) -> int:
         """return hitCount for the given path"""
 
 
@@ -16,7 +16,7 @@ class DdbFetchAdapter(FetchAdapter):
     def __init__(self, table: FetchTable):
         self.table = table
 
-    def fetch(self, path: str):
+    def fetch(self, path: str) -> int:
         resp = self.table.get_item(
             Key={ 'PK': path },
         )
