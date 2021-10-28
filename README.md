@@ -1,6 +1,7 @@
 # CDK Serverless Pytest Example
 
 This project is an example for pythonistas on serverless land.
+
 Writing unittest will help developers to collaborate with colleagues when they are working on shared CDK Stacks.
 
 ![Overview Architecture](img/overview.png)
