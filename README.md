@@ -36,18 +36,32 @@ deploy the CDK app to your account
 $ cdk deploy "*" --require-approval never
 ```
 
-# Test
+# Test 
+
+## Run test locally
 
 install dependencies
 
 ```bash
-$ pip install pytest moto -U
+$ pip install -r requirements.txt
+```
+
+install local services package for testing
+
+```bash
+$ pip install -e lib/functions
 ```
 
 run tests
 
 ```bash
 $ npm run pytest
+```
+
+## Run test using Docker
+
+```bash
+$ docker build -t cdk-pytest . && docker run --rm cdk-pytest
 ```
 
 # Cleanup

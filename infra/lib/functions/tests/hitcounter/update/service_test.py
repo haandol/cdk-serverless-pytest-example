@@ -1,5 +1,5 @@
 from ... import BaseTestCase
-from hitcounter.update import services
+from services.hitcounter.update import services
 
 
 class TestService(BaseTestCase):

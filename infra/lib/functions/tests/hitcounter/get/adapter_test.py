@@ -1,5 +1,5 @@
 from ... import BaseTestCase
-from hitcounter.get import adapters
+from services.hitcounter.get import adapters
 
 
 class TestDdbFetchAdapter(BaseTestCase):

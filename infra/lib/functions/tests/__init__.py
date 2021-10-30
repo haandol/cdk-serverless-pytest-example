@@ -4,9 +4,9 @@ import boto3
 from unittest import TestCase
 from moto import mock_dynamodb2 as mock_dynamodb
 
-PROJECT_PATH = os.getcwd()
-EVENTS_PATH = os.path.join(PROJECT_PATH, 'lib', 'functions', 'tests', 'events')
-FIXTURES_PATH = os.path.join(PROJECT_PATH, 'lib', 'functions', 'tests', 'fixtures')
+PROJECT_PATH = os.path.dirname(__file__)
+EVENTS_PATH = os.path.join(PROJECT_PATH, 'events')
+FIXTURES_PATH = os.path.join(PROJECT_PATH, 'fixtures')
 
 TABLE_NAME = 'test'
 
@@ -19,6 +19,7 @@ class BaseTestCase(TestCase):
     def beforeEach(self):
         pass
 
+    @mock_dynamodb
     def setUp(self):
         super().setUp()
 

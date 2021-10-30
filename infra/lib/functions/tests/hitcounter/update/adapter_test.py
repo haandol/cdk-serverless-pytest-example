@@ -1,5 +1,5 @@
 from ... import BaseTestCase
-from hitcounter.update import adapters
+from services.hitcounter.update import adapters
 
 
 class TestDdbUpdateAdapter(BaseTestCase):
