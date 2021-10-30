@@ -15,8 +15,8 @@ export class HitCounterService extends cdk.Construct {
 
     this.updateCount = new lambda.Function(this, `UpdateCount`, {
       functionName: `${ns}UpdateCount`,
-      code: lambda.Code.fromAsset(path.resolve(__dirname, '..', '..', 'functions', 'services')),
-      handler: 'hitcounter.update.index.handler',
+      code: lambda.Code.fromAsset(path.resolve(__dirname, '..', '..', 'functions', 'services', 'hitcounter')),
+      handler: 'update.index.handler',
       runtime: lambda.Runtime.PYTHON_3_8,
       environment: {
         TABLE_NAME: Table.Name,
@@ -29,8 +29,8 @@ export class HitCounterService extends cdk.Construct {
 
     this.getCount = new lambda.Function(this, `GetCount`, {
       functionName: `${ns}GetCount`,
-      code: lambda.Code.fromAsset(path.resolve(__dirname, '..', '..', 'functions', 'services')),
-      handler: 'hitcounter.get.index.handler',
+      code: lambda.Code.fromAsset(path.resolve(__dirname, '..', '..', 'functions', 'services', 'hitcounter')),
+      handler: 'get.index.handler',
       runtime: lambda.Runtime.PYTHON_3_8,
       environment: {
         TABLE_NAME: Table.Name,

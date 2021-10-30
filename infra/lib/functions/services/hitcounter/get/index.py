@@ -1,7 +1,7 @@
 import json
 from typing import Dict, Any
 from .service import get_count
-from ..common import response
+from .responses import success, error
 
 
 def handler(event: Dict[str, Any], context: Any):
@@ -9,12 +9,12 @@ def handler(event: Dict[str, Any], context: Any):
 
     path = event['pathParameters']['proxy']
     if not path:
-        return response.error(
+        return error(
             400, body='no path given', error_type='BadRequest'
         )
 
     count = get_count(path)
-    return response.success(body=json.dumps({
+    return success(body=json.dumps({
         'path': path,
         'count': count,
     }))
