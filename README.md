@@ -36,6 +36,47 @@ deploy the CDK app to your account
 $ cdk deploy "*" --require-approval never
 ```
 
+# Run
+
+install HTTPie, modernized CUrl
+
+```bash
+$ pip install httpie
+```
+
+update hit counter by requesting POST
+
+```bash
+
+$ cdk deploy ...
+
+...
+ ✅  CdkSlsPytestApiGatewayStack (no changes)
+
+Outputs:
+CdkSlsPytestApiGatewayStack.HttpApiUrl = https://xxx.execute-api.ap-northeast-2.amazonaws.com/
+
+$ http post https://xxx.execute-api.ap-northeast-2.amazonaws.com/test
+```
+
+get count for the given path
+
+```bash
+$ http get https://xxx.execute-api.ap-northeast-2.amazonaws.com/test
+
+HTTP/1.1 200 OK
+Apigw-Requestid: IBwAWh-YoE0EPcQ=
+Connection: keep-alive
+Content-Length: 28
+Content-Type: application/json
+Date: Sat, 30 Oct 2021 15:10:34 GMT
+
+{
+    "count": 1,
+    "path": "test"
+}
+```
+
 # Test 
 
 ## Run test locally
