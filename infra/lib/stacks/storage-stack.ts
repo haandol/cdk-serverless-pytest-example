@@ -4,7 +4,6 @@ import { Table } from '../constants/config'
 
 export class StorageStack extends cdk.Stack {
   public readonly mainTable: dynamodb.Table
-  public readonly developerPoolTable: dynamodb.Table
 
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props)
@@ -24,19 +23,6 @@ export class StorageStack extends cdk.Stack {
       // TODO: set retain for production
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     })
-    /*
-    table.addGlobalSecondaryIndex({
-      indexName: 'GS1',
-      partitionKey: {
-        name: 'GS1PK',
-        type: dynamodb.AttributeType.STRING,
-      },
-      sortKey: {
-        name: 'GS1SK',
-        type: dynamodb.AttributeType.STRING,
-      },
-    })
-    */
     return table
   }
 
