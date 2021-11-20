@@ -3,7 +3,7 @@ import * as lambda from '@aws-cdk/aws-lambda'
 import * as apigwv2 from '@aws-cdk/aws-apigatewayv2'
 
 export interface IRouteProps {
-  scope?: cdk.Construct
+  scope: cdk.Construct
   authorize?: boolean
   path?: string
   routeId: string
